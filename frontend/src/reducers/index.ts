@@ -3,11 +3,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { combineReducers } from 'redux';
 
 import type { AppDispatch } from '../store/types';
-import gamesReducer from './games/reducer';
-
+import gameStashReducer from './gameStash/reducer';
 
 const rootReducer = combineReducers({
-    games: gamesReducer,
+    gameStash: gameStashReducer,
     // other: otherReducer
 });
 

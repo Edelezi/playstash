@@ -18,7 +18,8 @@ import { Button, Image } from 'react-native-elements';
 import { fetchGameDetails } from '../api/rawg';
 import type { AddGameStackParamList, HomeStackParamList } from '../navigation/StackNavigator';
 import { useTypedDispatch, useTypedSelector } from '../reducers';
-import { addGameThunk, removeGameThunk } from '../reducers/games/thunks';
+import { addGameThunk, removeGameThunk } from '../reducers/gameStash/thunks';
+import type { RAWGGameData } from '../types/rawg';
 
 type GameDetailsScreenProps = StackScreenProps<
     HomeStackParamList | AddGameStackParamList,
@@ -27,18 +28,18 @@ type GameDetailsScreenProps = StackScreenProps<
 
 const GameDetailsScreen: React.FC<GameDetailsScreenProps> = ({ navigation, route }) => {
     const { game } = route.params;
-    const [gameDetails, setGameDetails] = useState(null);
+    const [gameDetails, setGameDetails] = useState<RAWGGameData | null>(null);
 
     const [selectedCategory, setSelectedCategory] = useState<'toPlay' | 'inProgress' | 'finished'>(
         'toPlay',
     );
-    const [selectedPlatform, setSelectedPlatform] = useState<number | null>(null);
+    const [selectedPlatform, setSelectedPlatform] = useState<number>(0);
     const [howLongToBeatData, setHowLongToBeatData] = useState<HowLongToBeatEntry | null>(null);
     const [categoryPickerModalVisible, setCategoryPickerModalVisible] = useState<boolean>(false);
     const [platformPickerModalVisible, setPlatformPickerModalVisible] = useState<boolean>(false);
     const [loading, setLoading] = useState<boolean>(false);
 
-    const wishlist = useTypedSelector(state => state.games.games);
+    const wishlist = useTypedSelector(state => state.gameStash.games);
     const inWishlist = wishlist.some(g => g.id === game.id);
 
     const dispatch = useTypedDispatch();
@@ -132,31 +133,31 @@ const GameDetailsScreen: React.FC<GameDetailsScreenProps> = ({ navigation, route
                 />
                 <Modal
                     animationType="slide"
-                    onRequestClose={() => setCategoryPickerModalVisible(false)}
+                    onRequestClose={() => setPlatformPickerModalVisible(false)}
                     transparent={true}
-                    visible={categoryPickerModalVisible}
+                    visible={platformPickerModalVisible}
                 >
                     <View style={styles.centeredView}>
                         <View style={styles.modalView}>
                             <TouchableOpacity
-                                onPress={() => setCategoryPickerModalVisible(false)}
+                                onPress={() => setPlatformPickerModalVisible(false)}
                                 style={styles.closeButton}
                             >
                                 <Text style={styles.closeButtonText}>Close</Text>
                             </TouchableOpacity>
                             <Picker
-                                onValueChange={itemValue => setSelectedPlatform(itemValue)}
-                                selectedValue={selectedPlatform}
+                                onValueChange={itemValue => setSelectedPlatform(Number(itemValue))}
+                                selectedValue={selectedPlatform.toString()}
                                 style={
                                     Platform.OS === 'ios' ? styles.iosPicker : styles.androidPicker
                                 }
                             >
-                                <Picker.Item label="Select Platform" value={null} />
+                                <Picker.Item label="Select Platform" value={'0'} />
                                 {game.platforms?.map(platform => (
                                     <Picker.Item
                                         key={platform.id}
                                         label={platform.name}
-                                        value={platform.id}
+                                        value={platform.id.toString()}
                                     />
                                 ))}
                             </Picker>
@@ -175,14 +176,14 @@ const GameDetailsScreen: React.FC<GameDetailsScreenProps> = ({ navigation, route
                 />
                 <Modal
                     animationType="slide"
-                    onRequestClose={() => setPlatformPickerModalVisible(false)}
+                    onRequestClose={() => setCategoryPickerModalVisible(false)}
                     transparent={true}
-                    visible={platformPickerModalVisible}
+                    visible={categoryPickerModalVisible}
                 >
                     <View style={styles.centeredView}>
                         <View style={styles.modalView}>
                             <TouchableOpacity
-                                onPress={() => setPlatformPickerModalVisible(false)}
+                                onPress={() => setCategoryPickerModalVisible(false)}
                                 style={styles.closeButton}
                             >
                                 <Text style={styles.closeButtonText}>Close</Text>

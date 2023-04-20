@@ -8,7 +8,7 @@ import { loadGames } from '../utils/localStorage';
 
 const loadStateFromStorage = async () => {
     const games = await loadGames();
-    return { games: { games } };
+    return { gameStash: { games } };
 };
 
 let store: Store<RootState, any> | null = null;
@@ -24,7 +24,9 @@ const initializeStore = async () => {
 
 export const getStore = () => {
     if (!store) {
-        throw new Error('Store has not been initialized. Call `initializeStore` before using the store.');
+        throw new Error(
+            'Store has not been initialized. Call `initializeStore` before using the store.',
+        );
     }
 
     return store;

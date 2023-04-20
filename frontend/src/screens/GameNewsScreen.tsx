@@ -3,13 +3,14 @@ import React, { useEffect, useState } from 'react';
 import { FlatList, Text, View } from 'react-native';
 
 import { fetchGameNews } from '../api/news';
-import type { AddGameStackParamList, HomeStackParamList } from '../navigation/StackNavigator'; // Import the fetchGameNews function
+import type { AddGameStackParamList, HomeStackParamList } from '../navigation/StackNavigator';
+import type { NewsArticle } from '../types/news'; // Import the fetchGameNews function
 
 type GameNewsScreenProps = StackScreenProps<HomeStackParamList | AddGameStackParamList, 'GameNews'>;
 
 const GameNewsScreen: React.FC<GameNewsScreenProps> = ({ route }: { route: any }) => {
     const { gameName } = route.params;
-    const [news, setNews] = useState([]);
+    const [news, setNews] = useState<NewsArticle[]>([]);
 
     useEffect(() => {
         async function fetchNews() {

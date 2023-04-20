@@ -16,7 +16,7 @@ import { loadExpandedCategories, saveExpandedCategories } from '../utils/localSt
 type HomeScreenProps = StackScreenProps<HomeStackParamList, 'Home'>;
 
 const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
-    const games = useSelector((state: RootState) => state.games.games);
+    const games = useSelector((state: RootState) => state.gameStash.games);
     const [expandedCategories, setExpandedCategories] = useState<string[]>([]);
 
     const [filterPlatform, setFilterPlatform] = useState('');
