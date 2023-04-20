@@ -1,9 +1,13 @@
+import type { StackScreenProps } from '@react-navigation/stack';
 import React, { useEffect, useState } from 'react';
 import { FlatList, Text, View } from 'react-native';
 
-import { fetchGameNews } from '../api/news'; // Import the fetchGameNews function
+import { fetchGameNews } from '../api/news';
+import type { AddGameStackParamList, HomeStackParamList } from '../navigation/StackNavigator'; // Import the fetchGameNews function
 
-function GameNewsScreen({ route }: { route: any }) {
+type GameNewsScreenProps = StackScreenProps<HomeStackParamList | AddGameStackParamList, 'GameNews'>;
+
+const GameNewsScreen: React.FC<GameNewsScreenProps> = ({ route }: { route: any }) => {
     const { gameName } = route.params;
     const [news, setNews] = useState([]);
 
@@ -35,6 +39,6 @@ function GameNewsScreen({ route }: { route: any }) {
             />
         </View>
     );
-}
+};
 
 export default GameNewsScreen;

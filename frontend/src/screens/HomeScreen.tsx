@@ -1,4 +1,5 @@
 import { Picker } from '@react-native-picker/picker';
+import type { StackScreenProps } from '@react-navigation/stack';
 import React, { useEffect, useState } from 'react';
 import { SectionList, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import Collapsible from 'react-native-collapsible';
@@ -7,11 +8,14 @@ import { useSelector } from 'react-redux';
 
 import collapsedIcon from '../assets/arrow-down.png';
 import expandedIcon from '../assets/arrow-up.png';
+import type { HomeStackParamList } from '../navigation/StackNavigator';
 import type { RootState } from '../reducers';
 import type { PSGame } from '../types/app';
 import { loadExpandedCategories, saveExpandedCategories } from '../utils/localStorage';
 
-const HomeScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
+type HomeScreenProps = StackScreenProps<HomeStackParamList, 'Home'>;
+
+const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
     const games = useSelector((state: RootState) => state.games.games);
     const [expandedCategories, setExpandedCategories] = useState<string[]>([]);
 

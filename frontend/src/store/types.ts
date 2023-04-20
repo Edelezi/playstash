@@ -4,6 +4,7 @@ import type {
     PayloadAction as PayloadAction,
     ThunkAction as ThunkAction,
 } from '@reduxjs/toolkit';
+
 import { getStore } from './';
 
 const store = getStore();

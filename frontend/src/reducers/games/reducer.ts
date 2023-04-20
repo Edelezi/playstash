@@ -1,6 +1,8 @@
 // reducer.ts
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { PSGame } from '../../types/app';
+import type { PayloadAction } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
+
+import type { PSGame } from '../../types/app';
 
 const initialState = {
     games: [] as PSGame[],
@@ -18,8 +20,6 @@ const gamesSlice = createSlice({
         },
     },
 });
-
-const actions = gamesSlice.actions;
 
 export const gameActions = gamesSlice.actions;
 export default gamesSlice.reducer;

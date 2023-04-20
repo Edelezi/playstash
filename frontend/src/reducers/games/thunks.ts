@@ -1,7 +1,7 @@
-import { PSGame } from '../../types/app';
+import type { AppThunk } from '../../store/types';
+import type { PSGame } from '../../types/app';
 import { saveGames } from '../../utils/localStorage';
 import { gameActions } from './reducer';
-import { AppThunk } from '../../store/types';
 
 export const addGameThunk =
     (game: PSGame): AppThunk =>

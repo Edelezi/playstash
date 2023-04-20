@@ -1,5 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { PSGame } from '../types/app';
+
+import type { PSGame } from '../types/app';
 
 const EXPANDED_CATEGORIES_STORAGE_KEY = 'expandedCategories';
 const GAMES_STORAGE_KEY = 'games';

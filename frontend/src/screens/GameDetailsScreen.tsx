@@ -1,6 +1,7 @@
 import { Picker } from '@react-native-picker/picker';
-import { StackScreenProps } from '@react-navigation/stack';
-import { HowLongToBeatEntry, HowLongToBeatService } from 'howlongtobeat';
+import type { StackScreenProps } from '@react-navigation/stack';
+import type { HowLongToBeatEntry } from 'howlongtobeat';
+import { HowLongToBeatService } from 'howlongtobeat';
 import React, { useEffect, useState } from 'react';
 import {
     ActivityIndicator,
@@ -13,8 +14,9 @@ import {
     View,
 } from 'react-native';
 import { Button, Image } from 'react-native-elements';
+
 import { fetchGameDetails } from '../api/rawg';
-import { AddGameStackParamList, HomeStackParamList } from '../navigation/StackNavigator';
+import type { AddGameStackParamList, HomeStackParamList } from '../navigation/StackNavigator';
 import { useTypedDispatch, useTypedSelector } from '../reducers';
 import { addGameThunk, removeGameThunk } from '../reducers/games/thunks';
 
@@ -90,9 +92,9 @@ const GameDetailsScreen: React.FC<GameDetailsScreenProps> = ({ navigation, route
             <View style={styles.container}>
                 {game.cover && (
                     <Image
+                        resizeMode="cover"
                         source={{ uri: `https:${game.cover.url}` }}
                         style={styles.coverImage}
-                        resizeMode="cover"
                     />
                 )}
                 <Text style={styles.title}>{game.name}</Text>
@@ -120,31 +122,31 @@ const GameDetailsScreen: React.FC<GameDetailsScreenProps> = ({ navigation, route
                     )
                 )}
                 <Button
-                    title="View Game News"
                     onPress={() => navigation.navigate('GameNews', { gameName: game.name })}
+                    title="View Game News"
                 />
                 <Button
-                    title={selectedCategory}
                     onPress={() => setCategoryPickerModalVisible(true)}
                     style={styles.togglePickerButton}
+                    title={selectedCategory}
                 />
                 <Modal
                     animationType="slide"
+                    onRequestClose={() => setCategoryPickerModalVisible(false)}
                     transparent={true}
                     visible={categoryPickerModalVisible}
-                    onRequestClose={() => setCategoryPickerModalVisible(false)}
                 >
                     <View style={styles.centeredView}>
                         <View style={styles.modalView}>
                             <TouchableOpacity
-                                style={styles.closeButton}
                                 onPress={() => setCategoryPickerModalVisible(false)}
+                                style={styles.closeButton}
                             >
                                 <Text style={styles.closeButtonText}>Close</Text>
                             </TouchableOpacity>
                             <Picker
-                                selectedValue={selectedPlatform}
                                 onValueChange={itemValue => setSelectedPlatform(itemValue)}
+                                selectedValue={selectedPlatform}
                                 style={
                                     Platform.OS === 'ios' ? styles.iosPicker : styles.androidPicker
                                 }
@@ -162,32 +164,32 @@ const GameDetailsScreen: React.FC<GameDetailsScreenProps> = ({ navigation, route
                     </View>
                 </Modal>
                 <Button
+                    onPress={() => setPlatformPickerModalVisible(true)}
+                    style={styles.togglePickerButton}
                     title={
                         selectedPlatform
                             ? game.platforms?.find(platform => platform.id === selectedPlatform)
                                   ?.name
                             : 'Select Platform'
                     }
-                    onPress={() => setPlatformPickerModalVisible(true)}
-                    style={styles.togglePickerButton}
                 />
                 <Modal
                     animationType="slide"
+                    onRequestClose={() => setPlatformPickerModalVisible(false)}
                     transparent={true}
                     visible={platformPickerModalVisible}
-                    onRequestClose={() => setPlatformPickerModalVisible(false)}
                 >
                     <View style={styles.centeredView}>
                         <View style={styles.modalView}>
                             <TouchableOpacity
-                                style={styles.closeButton}
                                 onPress={() => setPlatformPickerModalVisible(false)}
+                                style={styles.closeButton}
                             >
                                 <Text style={styles.closeButtonText}>Close</Text>
                             </TouchableOpacity>
                             <Picker
-                                selectedValue={selectedCategory}
                                 onValueChange={itemValue => setSelectedCategory(itemValue)}
+                                selectedValue={selectedCategory}
                                 style={
                                     Platform.OS === 'ios' ? styles.iosPicker : styles.androidPicker
                                 }
@@ -201,12 +203,12 @@ const GameDetailsScreen: React.FC<GameDetailsScreenProps> = ({ navigation, route
                 </Modal>
                 {inWishlist ? (
                     <Button
-                        title="Remove from Wishlist"
-                        onPress={removeGameFromWishlist}
                         buttonStyle={{ backgroundColor: 'red' }}
+                        onPress={removeGameFromWishlist}
+                        title="Remove from Wishlist"
                     />
                 ) : (
-                    <Button title="Add to Wishlist" onPress={addGameToWishlist} />
+                    <Button onPress={addGameToWishlist} title="Add to Wishlist" />
                 )}
             </View>
         </ScrollView>

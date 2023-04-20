@@ -3,8 +3,9 @@ import { NavigationContainer } from '@react-navigation/native';
 import * as React from 'react';
 import { ActivityIndicator, StyleSheet, Text, TouchableOpacity } from 'react-native';
 import { Provider } from 'react-redux';
-import UserProfileScreen from './src/screens/UserProfileScreen';
+
 import { AddGameStackNavigator, HomeStackNavigator } from './src/navigation/StackNavigator';
+import UserProfileScreen from './src/screens/UserProfileScreen';
 import initializeStore, { getStore } from './src/store';
 
 const Tab = createBottomTabNavigator();
@@ -22,28 +23,31 @@ export default function App() {
     }, []);
 
     if (!storeReady) {
-        return <ActivityIndicator size="large"/>; // Or any loading indicator you prefer
+        return <ActivityIndicator size="large" />; // Or any loading indicator you prefer
     }
 
     return (
         <Provider store={getStore()}>
             <NavigationContainer>
                 <Tab.Navigator>
-                    <Tab.Screen name="Home" component={HomeStackNavigator}
-                                options={({ navigation }) => ({
-                                    headerRight: () => (
-                                        <TouchableOpacity
-                                            onPress={() => navigation.navigate('Add Game')}
-                                            style={{ marginRight: 10 }}
-                                        >
-                                            <Text>Add a Game</Text>
-                                        </TouchableOpacity>
-                                    ),
-                                })}/>
-                    <Tab.Screen name="Add Game" component={AddGameStackNavigator}/>
                     <Tab.Screen
-                        name="UserProfile"
+                        component={HomeStackNavigator}
+                        name="Home"
+                        options={({ navigation }) => ({
+                            headerRight: () => (
+                                <TouchableOpacity
+                                    onPress={() => navigation.navigate('Add Game')}
+                                    style={{ marginRight: 10 }}
+                                >
+                                    <Text>Add a Game</Text>
+                                </TouchableOpacity>
+                            ),
+                        })}
+                    />
+                    <Tab.Screen component={AddGameStackNavigator} name="Add Game" />
+                    <Tab.Screen
                         component={UserProfileScreen}
+                        name="UserProfile"
                         options={{ tabBarLabel: 'Profile' }}
                     />
                 </Tab.Navigator>
@@ -51,12 +55,3 @@ export default function App() {
         </Provider>
     );
 }
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: '#fff',
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-});

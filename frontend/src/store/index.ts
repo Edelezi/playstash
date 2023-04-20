@@ -1,7 +1,9 @@
 // store.ts
 import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
-import { Store } from 'redux';
-import reducer, { RootState } from '../reducers';
+import type { Store } from 'redux';
+
+import type { RootState } from '../reducers';
+import reducer from '../reducers';
 import { loadGames } from '../utils/localStorage';
 
 const loadStateFromStorage = async () => {

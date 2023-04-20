@@ -1,6 +1,8 @@
-import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
+import type { TypedUseSelectorHook } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { combineReducers } from 'redux';
-import { AppDispatch } from '../store/types';
+
+import type { AppDispatch } from '../store/types';
 import gamesReducer from './games/reducer';
 
 
