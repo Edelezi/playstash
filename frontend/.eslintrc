@@ -1,0 +1,49 @@
+{
+    "parser": "@typescript-eslint/parser",
+    "plugins": [
+        "react-hooks",
+        "import",
+        "prettier",
+        "react",
+        "simple-import-sort",
+        "@typescript-eslint"
+    ],
+    "ignorePatterns": [
+        "!.prettierrc.js",
+        "dist",
+        "node_modules"
+    ],
+    "rules": {
+        "@typescript-eslint/consistent-type-imports": [
+            "error",
+            {
+                "prefer": "type-imports"
+            }
+        ],
+        "object-curly-spacing": [
+            "error",
+            "always"
+        ],
+        "array-bracket-spacing": [
+            "error",
+            "never"
+        ],
+        "react-hooks/rules-of-hooks": "error",
+        "react-hooks/exhaustive-deps": "warn",
+        "@typescript-eslint/no-unused-vars": [
+            "warn",
+            {
+                "argsIgnorePattern": "^_",
+                "varsIgnorePattern": "^_",
+                "caughtErrorsIgnorePattern": "^_",
+                "ignoreRestSiblings": true
+            }
+        ],
+        "react/jsx-sort-props": "error",
+        "simple-import-sort/exports": "error",
+        "simple-import-sort/imports": "error",
+        "sort-imports": "off",
+        "sort-keys": "off",
+        "no-console": "warn"
+    }
+}
